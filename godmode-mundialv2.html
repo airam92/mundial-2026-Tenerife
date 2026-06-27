@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundial 2026 🔥 GodMode</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0f;color:#e0e0e0;font-family:'Inter',sans-serif;min-height:100vh;overflow-x:hidden}
+header{background:linear-gradient(135deg,#1a0a00 0%,#2d1500 50%,#1a0a00 100%);padding:20px 40px;border-bottom:3px solid #ff6a00;text-align:center;position:relative}
+header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#ff4500,#ff8c00,#ffd700,#ff8c00,#ff4500);background-size:200% 100%;animation:fireMove 2s linear infinite}
+@keyframes fireMove{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.logo{font-family:'Orbitron',sans-serif;font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,#ff4500,#ff8c00,#ffd700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:4px}
+.subtitle{color:#ff8c00;font-size:1rem;margin-top:5px;letter-spacing:6px;text-transform:uppercase}
+.reloj{font-family:'Orbitron',sans-serif;font-size:1.8rem;color:#ffd700;text-shadow:0 0 20px rgba(255,140,0,0.5);margin-top:10px}
+.reloj small{font-size:0.9rem;color:#ff8c00;font-family:'Inter',sans-serif}
+.menu-nav{display:flex;gap:10px;padding:15px 40px;background:#111;border-bottom:2px solid #222;flex-wrap:wrap;align-items:center;justify-content:center}
+.menu-btn{background:transparent;color:#999;border:2px solid #333;padding:10px 22px;border-radius:8px;font-size:0.9rem;font-weight:600;cursor:pointer;transition:all .3s;font-family:'Orbitron',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.menu-btn:hover{color:#fff;border-color:#ff6a00;background:rgba(255,69,0,0.1)}
+.menu-btn.active{color:#ffd700;border-color:#ff6a00;background:linear-gradient(135deg,#ff450033,#ff6a0033);box-shadow:0 0 15px rgba(255,69,0,0.2)}
+.menu-btn .badge-menu{font-size:0.7rem;background:#ff4500;color:#fff;padding:1px 7px;border-radius:10px;margin-left:5px}
+.container{max-width:1400px;margin:0 auto;padding:20px}
+.btn{background:linear-gradient(135deg,#ff4500,#ff6a00);color:#fff;border:none;padding:12px 28px;border-radius:8px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s;font-family:'Orbitron',sans-serif;letter-spacing:1px}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(255,69,0,0.4)}
+.btn:disabled{opacity:0.5;cursor:wait}
+.ultima-act{color:#888;font-size:0.85rem;margin-left:auto}
+.seccion{display:none}
+.seccion.active{display:block}
+.seccion-title{font-family:'Orbitron',sans-serif;font-size:1.5rem;color:#ff8c00;margin-bottom:20px;padding-bottom:10px;border-bottom:2px solid #ff6a00;display:flex;align-items:center;gap:10px}
+.seccion-title .badge{font-size:0.7rem;background:#ff4500;color:#fff;padding:2px 10px;border-radius:20px}
+.partidos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:15px}
+.partido-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;padding:18px;border:1px solid #333;transition:all .3s;position:relative;overflow:hidden;margin-bottom:15px}
+.partido-card:hover{border-color:#ff6a00;box-shadow:0 0 25px rgba(255,69,0,0.15);transform:translateY(-2px)}
+.partido-card.finalizado{border-left:4px solid #ff4500}
+.partido-card.envivo{border-left:4px solid #00ff00;animation:pulseVivo 2s infinite}
+@keyframes pulseVivo{0%,100%{box-shadow:0 0 10px rgba(0,255,0,0.2)}50%{box-shadow:0 0 25px rgba(0,255,0,0.4)}}
+.partido-card.programado{border-left:4px solid #ffd700}
+.skeleton-card{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;padding:18px;border:1px solid #333;height:200px;animation:skeletonPulse 1.5s ease-in-out infinite}
+@keyframes skeletonPulse{0%,100%{opacity:0.3}50%{opacity:0.6}}
+.partido-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:0.8rem}
+.partido-fecha{color:#999}
+.partido-estado{padding:3px 10px;border-radius:12px;font-size:0.7rem;font-weight:600;text-transform:uppercase}
+.estado-final{background:#ff450033;color:#ff6a00}
+.estado-vivo{background:#00ff0033;color:#00ff00}
+.estado-prog{background:#ffd70033;color:#ffd700}
+.partido-equipos{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:12px}
+.equipo{display:flex;align-items:center;gap:10px;font-weight:600;font-size:1rem}
+.equipo.local{justify-content:flex-start}
+.equipo.visitante{justify-content:flex-end}
+.equipo .flag{font-size:1.5rem}
+.resultado{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;color:#ffd700;text-shadow:0 0 15px rgba(255,215,0,0.3);text-align:center;min-width:60px}
+.resultado.vacio{color:#666;font-size:1rem}
+.goles-list{list-style:none;padding:0;margin-top:8px;border-top:1px solid #222;padding-top:8px}
+.goles-list li{font-size:0.85rem;padding:3px 0;color:#ccc}
+.goles-list li .penalty{color:#ff4500;font-weight:600}
+.info-extra{font-size:0.75rem;color:#777;margin-top:6px;display:flex;gap:15px;flex-wrap:wrap}
+.mensaje-info{background:#1a1a2e;border:1px solid #333;padding:30px;border-radius:8px;color:#888;text-align:center;font-size:1.1rem}
+.status-bar{margin-top:8px;font-size:0.8rem;color:#666;display:flex;gap:8px;flex-wrap:wrap}
+.status-bar span{padding:2px 8px;border-radius:4px;background:#222}
+.envivo-badge-grande{display:inline-block;background:#00ff00;color:#000;padding:2px 12px;border-radius:4px;font-weight:700;font-size:0.7rem;animation:parpadeo 1s infinite}
+@keyframes parpadeo{0%,100%{opacity:1}50%{opacity:0.4}}
+.vivo-section{background:linear-gradient(135deg,#001a00,#002200);border:2px solid #00ff0044;border-radius:16px;padding:25px;margin-bottom:30px}
+.vivo-section .seccion-title{color:#00ff00;border-bottom-color:#00ff00}
+.hoy-section{background:linear-gradient(135deg,#1a1a00,#222200);border:2px solid #ffd70044;border-radius:16px;padding:25px;margin-bottom:30px}
+.hoy-section .seccion-title{color:#ffd700;border-bottom-color:#ffd700}
+.error-banner{background:#ff450033;border:2px solid #ff4500;color:#ff8c00;padding:15px;border-radius:8px;margin:20px 0;text-align:center}
+.error-banner button{margin-top:10px;background:#ff4500;color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer}
+.auto-refresh-indicator{display:inline-block;width:8px;height:8px;background:#00ff00;border-radius:50%;margin-right:5px;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@media(max-width:768px){
+  header{padding:15px}
+  .logo{font-size:1.5rem}
+  .reloj{font-size:1.2rem}
+  .menu-nav{padding:10px 15px;gap:5px}
+  .menu-btn{padding:8px 12px;font-size:0.75rem}
+  .partidos-grid{grid-template-columns:1fr}
+  .container{padding:10px}
+  .vivo-section,.hoy-section{padding:15px}
+}
+@media(max-width:480px){
+  .equipo{font-size:0.8rem}
+  .resultado{font-size:1.2rem}
+  .partido-card{padding:12px}
+  .goles-list{font-size:0.7rem}
+  .equipo .flag{font-size:1.2rem}
+  .menu-btn{padding:6px 10px;font-size:0.7rem}
+}
+
+/* Estilos para el aviso de primera carga */
+.aviso-primera-carga {
+  animation: fadeIn 0.3s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* Estilos para banderas en goleadores */
+.goles-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.goles-list li .flag {
+  font-size: 1rem;
+}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🏆 GODMODE MUNDIAL PERRAS <span>🔥</span></div>
+<div class="subtitle">FIFA WORLD CUP 2026 · MÉXICO · EE.UU. · CANADÁ</div>
+<div class="reloj" id="reloj">--:--:-- <small>Tenerife</small></div>
+</header>
+<div class="menu-nav" role="tablist">
+  <button class="menu-btn active" role="tab" aria-selected="true" aria-controls="panel-vivo-hoy" data-seccion="vivo-hoy" onclick="mostrarSeccion('vivo-hoy')">🔴 EN VIVO / HOY <span class="badge-menu" id="badge-vivo">0</span></button>
+  <button class="menu-btn" role="tab" aria-selected="false" aria-controls="panel-pasados" data-seccion="pasados" onclick="mostrarSeccion('pasados')">⏪ PASADOS <span class="badge-menu" id="badge-pasados">0</span></button>
+  <button class="menu-btn" role="tab" aria-selected="false" aria-controls="panel-proximos" data-seccion="proximos" onclick="mostrarSeccion('proximos')">⏩ PRÓXIMOS <span class="badge-menu" id="badge-proximos">0</span></button>
+  <button class="menu-btn" role="tab" aria-selected="false" aria-controls="panel-grupos" data-seccion="grupos" onclick="mostrarSeccion('grupos')">📊 GRUPOS <span class="badge-menu" id="badge-grupos">12</span></button>
+  <button class="btn" id="btnAct" onclick="renderizarTodo()" style="margin-left:auto">🔄 ACTUALIZAR</button>
+  <span class="ultima-act" id="ultAct">Datos cargados</span>
+  <span id="autoRefreshIndicator" style="display:none;margin-left:10px;color:#00ff00;font-size:0.8rem"><span class="auto-refresh-indicator"></span>Auto-refresh activo</span>
+</div>
+<div class="container">
+  <div id="error-container"></div>
+  <div id="panel-vivo-hoy" class="seccion active" role="tabpanel"><div id="vivo-hoy-content"><div class="mensaje-info">Cargando...</div></div></div>
+  <div id="panel-pasados" class="seccion" role="tabpanel"><div class="seccion-title">⏪ PARTIDOS PASADOS <span class="badge" id="count-pasados">0</span></div><div id="pasados-content"></div></div>
+  <div id="panel-proximos" class="seccion" role="tabpanel"><div class="seccion-title">⏩ PRÓXIMOS PARTIDOS <span class="badge" id="count-proximos">0</span></div><div id="proximos-content"></div></div>
+  <div id="panel-grupos" class="seccion" role="tabpanel"><div class="seccion-title">📊 CLASIFICACIONES · GRUPOS <span class="badge" id="count-grupos">12</span></div><div id="grupos-content"></div></div>
+</div>
+<script>
+// ===== CONFIGURACIÓN =====
+const CONFIG = {
+  DEBUG: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1',
+  MAX_RETRIES: 3,
+  RETRY_DELAY: 2000,
+  AUTO_REFRESH_INTERVAL: 60000,
+  MAX_POR_CARGA: 20,
+  API_BASE: 'https://wcup2026.org/api/data.php',
+  CACHE_KEY: 'mundial2026_cache',
+  CACHE_DURATION: 5 * 60 * 1000,
+};
+
+// ===== LOGGING CONDICIONAL =====
+function log(...args) {
+  if (CONFIG.DEBUG) console.log('[Mundial2026]', ...args);
+}
+
+// ===== ALMACENAMIENTO GLOBAL =====
+let EVENTOS = [];
+let CLASIFICACIONES = [];
+let ultimaActualizacion = null;
+let autoRefreshInterval = null;
+let errorCount = 0;
+const MAX_ERRORS_BEFORE_STOP = 5;
+
+// ===== FUNCIONES DE SANITIZACIÓN Y SEGURIDAD =====
+function sanitizar(str) {
+  if (!str) return '';
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+// ===== GESTIÓN DE CACHÉ LOCAL =====
+function guardarCache(data) {
+  try {
+    const cache = {
+      timestamp: Date.now(),
+      eventos: EVENTOS,
+      clasificaciones: CLASIFICACIONES,
+      ultimaActualizacion: ultimaActualizacion
+    };
+    localStorage.setItem(CONFIG.CACHE_KEY, JSON.stringify(cache));
+    log('Caché guardada');
+  } catch (e) {
+    log('Error guardando caché:', e);
+  }
+}
+
+function cargarCache() {
+  try {
+    const cache = localStorage.getItem(CONFIG.CACHE_KEY);
+    if (!cache) return false;
+    
+    const data = JSON.parse(cache);
+    const edad = Date.now() - data.timestamp;
+    
+    if (edad > CONFIG.CACHE_DURATION) {
+      log('Caché expirada');
+      return false;
+    }
+    
+    EVENTOS = data.eventos || [];
+    CLASIFICACIONES = data.clasificaciones || [];
+    ultimaActualizacion = data.ultimaActualizacion ? new Date(data.ultimaActualizacion) : null;
+    log('Caché cargada, edad:', Math.round(edad / 1000), 'segundos');
+    return true;
+  } catch (e) {
+    log('Error cargando caché:', e);
+    return false;
+  }
+}
+
+// ===== FETCH CON REINTENTOS =====
+async function fetchWithRetry(url, retries = CONFIG.MAX_RETRIES) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
+      
+      const response = await fetch(url, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      log('Fetch exitoso:', url);
+      return data;
+    } catch (e) {
+      log(`Intento ${i + 1}/${retries} fallido:`, e.message);
+      
+      if (i === retries - 1) {
+        throw new Error(`Error después de ${retries} intentos: ${e.message}`);
+      }
+      
+      const delay = CONFIG.RETRY_DELAY * Math.pow(2, i);
+      await new Promise(r => setTimeout(r, delay));
+    }
+  }
+}
+
+// ===== MOSTRAR ERRORES AL USUARIO =====
+function mostrarError(mensaje, recuperable = true) {
+  const container = document.getElementById('error-container');
+  if (!container) return;
+  
+  const errorHTML = `
+    <div class="error-banner">
+      <strong>⚠️ Error de conexión</strong><br>
+      ${sanitizar(mensaje)}<br>
+      ${recuperable ? '<button onclick="reintentarCarga()">🔄 Reintentar</button>' : ''}
+      <button onclick="usarCacheLocal()" style="margin-left:10px">💾 Usar datos en caché</button>
+    </div>
+  `;
+  
+  container.innerHTML = errorHTML;
+}
+
+function limpiarErrores() {
+  const container = document.getElementById('error-container');
+  if (container) container.innerHTML = '';
+}
+
+// ===== CARGAR PARTIDOS (OPTIMIZADO) =====
+async function cargarPartidos() {
+  try {
+    const dataVivo = await fetchWithRetry(`${CONFIG.API_BASE}?action=all`);
+    
+    ultimaActualizacion = dataVivo.updated ? new Date(dataVivo.updated * 1000) : new Date();
+    
+    EVENTOS = dataVivo.matches.map(m => ({
+      id: String(m.id),
+      local: sanitizar(m.team1),
+      visitante: sanitizar(m.team2),
+      fecha: new Date(m.datetime * 1000).toISOString(),
+      gL: m.score ? String(m.score[0]) : null,
+      gV: m.score ? String(m.score[1]) : null,
+      goles: [],
+      venue: sanitizar(m.ground || ''),
+      grupo: sanitizar(m.group || ''),
+      ronda: sanitizar(m.round || ''),
+      statusAPI: m.status || 'upcoming',
+      minutoVivo: m.live_minute || null
+    }));
+    
+    errorCount = 0;
+    limpiarErrores();
+    guardarCache();
+    
+    return true;
+  } catch (e) {
+    errorCount++;
+    log('Error cargando partidos:', e);
+    
+    if (errorCount >= MAX_ERRORS_BEFORE_STOP) {
+      mostrarError('Múltiples errores de conexión. Usando datos en caché.', false);
+      return cargarCache();
+    }
+    
+    mostrarError(`Error al cargar partidos: ${e.message}`);
+    
+    const cacheUsada = cargarCache();
+    if (!cacheUsada) {
+      mostrarError('No hay datos disponibles. Por favor, inténtelo más tarde.', false);
+    }
+    
+    return cacheUsada;
+  }
+}
+
+// ===== CACHÉ LOCAL DE GOLEADORES =====
+const CACHE_GOLES_KEY = 'mundial2026_goles';
+
+function cargarCacheGoles() {
+  try {
+    const data = localStorage.getItem(CACHE_GOLES_KEY);
+    return data ? JSON.parse(data) : {};
+  } catch (e) {
+    log('Error cargando caché de goles:', e);
+    return {};
+  }
+}
+
+function guardarCacheGoles(cache) {
+  try {
+    localStorage.setItem(CACHE_GOLES_KEY, JSON.stringify(cache));
+  } catch (e) {
+    log('Error guardando caché de goles:', e);
+  }
+}
+
+// ===== SISTEMA 100% AUTOMÁTICO DE GOLEADORES =====
+async function cargarGoleadoresOptimizado() {
+  try {
+    const ahora = new Date();
+    const cacheLocal = cargarCacheGoles();
+    
+    // Aplicar goles de caché a los eventos
+    EVENTOS.forEach(ev => {
+      if (ev.goles.length === 0 && cacheLocal[ev.id]) {
+        ev.goles = cacheLocal[ev.id];
+      }
+    });
+    
+    // 1. Identificar partidos que necesitan goleadores
+    const partidosNecesitanGoles = EVENTOS.filter(ev => {
+      if (ev.gL === null || ev.gL === undefined) return false;
+      if (ev.goles && ev.goles.length > 0) return false;
+      return true;
+    });
+    
+    // 2. PRIORIZAR: Primero en vivo/hoy, luego pasados recientes
+    const partidosPriorizados = priorizarPartidos(partidosNecesitanGoles, ahora);
+    
+    if (partidosPriorizados.length === 0) {
+      log('✅ Todos los goleadores ya están cargados');
+      return;
+    }
+    
+    log(`📊 Cargando goleadores para ${partidosPriorizados.length} partidos`);
+    
+    // 3. Cargar en lotes priorizando los importantes
+    const altaPrioridad = partidosPriorizados.filter(p => p.prioridad === 'alta');
+    const bajaPrioridad = partidosPriorizados.filter(p => p.prioridad === 'baja');
+    
+    // Cargar alta prioridad (en vivo/hoy/3 días)
+    await cargarLoteGoles(altaPrioridad, cacheLocal);
+    
+    // Cargar baja prioridad hasta el máximo
+    const MAX_POR_CARGA = CONFIG.MAX_POR_CARGA;
+    const resto = Math.max(0, MAX_POR_CARGA - altaPrioridad.length);
+    if (resto > 0 && bajaPrioridad.length > 0) {
+      await cargarLoteGoles(bajaPrioridad.slice(0, resto), cacheLocal);
+    }
+    
+    if (bajaPrioridad.length > resto) {
+      log(`⏳ ${bajaPrioridad.length - resto} partidos pendientes para próxima carga`);
+    }
+    
+    guardarCacheGoles(cacheLocal);
+    
+  } catch (e) {
+    log('Error cargando goleadores:', e.message);
+  }
+}
+
+// ===== PRIORIZAR PARTIDOS =====
+function priorizarPartidos(partidos, ahora) {
+  const hoy = fechaStr(ahora.toISOString());
+  const hace3Dias = new Date(ahora.getTime() - 3 * 24 * 60 * 60 * 1000);
+  
+  return partidos.map(ev => {
+    let prioridad = 'baja';
+    
+    if (ev.statusAPI === 'live') {
+      prioridad = 'alta';
+    } else if (ev.fecha) {
+      const fechaPartido = new Date(ev.fecha);
+      if (fechaStr(ev.fecha) === hoy || fechaPartido >= hace3Dias) {
+        prioridad = 'alta';
+      }
+    }
+    
+    return { ...ev, prioridad };
+  }).sort((a, b) => {
+    if (a.prioridad !== b.prioridad) {
+      return a.prioridad === 'alta' ? -1 : 1;
+    }
+    return new Date(b.fecha || 0) - new Date(a.fecha || 0);
+  });
+}
+
+// ===== CARGAR LOTE DE GOLES =====
+async function cargarLoteGoles(partidos, cacheLocal) {
+  if (!partidos || partidos.length === 0) return;
+  
+  const LOTE_SIZE = 3;
+  let cargados = 0;
+  
+  for (let i = 0; i < partidos.length; i += LOTE_SIZE) {
+    const lote = partidos.slice(i, i + LOTE_SIZE);
+    
+    const results = await Promise.allSettled(
+      lote.map(ev => fetchWithRetry(`${CONFIG.API_BASE}?action=match&id=${ev.id}`, 2))
+    );
+    
+    results.forEach((result, idx) => {
+      if (result.status === 'fulfilled' && result.value?.match) {
+        const m = result.value.match;
+        const ev = lote[idx];
+        
+        const goles = [
+          ...(m.goals1 || []).map(g => ({
+            goleador: sanitizar(g.name),
+            min: g.minute,
+            pen: false,
+            auto: false
+          })),
+          ...(m.goals2 || []).map(g => ({
+            goleador: sanitizar(g.name),
+            min: g.minute,
+            pen: false,
+            auto: false
+          }))
+        ];
+        
+        const evOriginal = EVENTOS.find(e => e.id === ev.id);
+        if (evOriginal) {
+          evOriginal.goles = goles;
+        }
+        
+        cacheLocal[ev.id] = goles;
+        cargados++;
+      }
+    });
+    
+    if (i + LOTE_SIZE < partidos.length) {
+      await new Promise(r => setTimeout(r, 500));
+    }
+  }
+}
+
+// ===== SISTEMA DE CARGA PROGRESIVA =====
+let cargaProgresivaActiva = false;
+
+async function iniciarCargaProgresiva() {
+  if (cargaProgresivaActiva) return;
+  cargaProgresivaActiva = true;
+  
+  log('🔄 Iniciando carga progresiva de goleadores...');
+  
+  const intervalo = setInterval(async () => {
+    const partidosPendientes = EVENTOS.filter(ev =>
+      ev.gL !== null && (!ev.goles || ev.goles.length === 0)
+    );
+    
+    if (partidosPendientes.length === 0) {
+      log('✅ Todos los goleadores cargados. Deteniendo carga progresiva.');
+      clearInterval(intervalo);
+      cargaProgresivaActiva = false;
+      return;
+    }
+    
+    log(`⏳ Quedan ${partidosPendientes.length} partidos sin goles`);
+    await cargarGoleadoresOptimizado();
+    
+  }, 30000);
+  
+  setTimeout(() => {
+    clearInterval(intervalo);
+    cargaProgresivaActiva = false;
+    log('⏰ Tiempo máximo de carga progresiva alcanzado');
+  }, 300000);
+}
+
+// ===== CARGAR CLASIFICACIONES =====
+async function cargarClasificaciones() {
+  try {
+    const data = await fetchWithRetry(`${CONFIG.API_BASE}?action=standings`);
+    
+    CLASIFICACIONES = [];
+    if (data.standings) {
+      for (const [grupo, equipos] of Object.entries(data.standings)) {
+        CLASIFICACIONES.push({ 
+          grupo: sanitizar(grupo), 
+          equipos: equipos.map(eq => ({
+            ...eq,
+            team: sanitizar(eq.team)
+          }))
+        });
+      }
+      CLASIFICACIONES.sort((a, b) => a.grupo.localeCompare(b.grupo));
+    }
+    
+    guardarCache();
+    return true;
+  } catch (e) {
+    log('Error cargando clasificaciones:', e);
+    return false;
+  }
+}
+
+// ===== RENDERIZAR SKELETON LOADERS =====
+function mostrarSkeletonLoader(cantidad = 3) {
+  return Array(cantidad).fill(0).map(() => 
+    '<div class="skeleton-card"></div>'
+  ).join('');
+}
+
+// ===== RENDERIZAR CLASIFICACIONES =====
+function renderClasificaciones() {
+  if (!CLASIFICACIONES.length) {
+    return '<div class="mensaje-info">📌 No hay datos de clasificaciones disponibles</div>';
+  }
+  
+  let html = '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(450px,1fr));gap:20px">';
+  const letras = ['A','B','C','D','E','F','G','H','I','J','K','L'];
+  
+  CLASIFICACIONES.forEach((g, idx) => {
+    const letra = letras[idx] || g.grupo.replace('Group ','');
+    html += '<div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:12px;padding:18px;border:1px solid #333;overflow:hidden">';
+    html += `<div style="font-family:'Orbitron',sans-serif;font-size:1.2rem;color:#ffd700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid #ff6a00">📊 GRUPO ${sanitizar(letra)}</div>`;
+    html += '<table style="width:100%;border-collapse:collapse;font-size:0.85rem">';
+    html += '<thead><tr style="color:#888;border-bottom:1px solid #333;text-transform:uppercase;font-size:0.7rem;letter-spacing:1px">';
+    html += '<th style="padding:6px 4px;text-align:left;">#</th>';
+    html += '<th style="padding:6px 4px;text-align:left;">Equipo</th>';
+    html += '<th style="padding:6px 4px;text-align:center;">PJ</th>';
+    html += '<th style="padding:6px 4px;text-align:center;color:#00ff00">G</th>';
+    html += '<th style="padding:6px 4px;text-align:center;color:#888">E</th>';
+    html += '<th style="padding:6px 4px;text-align:center;color:#ff4500">P</th>';
+    html += '<th style="padding:6px 4px;text-align:center;">GF</th>';
+    html += '<th style="padding:6px 4px;text-align:center;">GC</th>';
+    html += '<th style="padding:6px 4px;text-align:center;color:#888">DG</th>';
+    html += '<th style="padding:6px 4px;text-align:center;font-weight:700;color:#ffd700">PTS</th>';
+    html += '</tr></thead><tbody>';
+    
+    g.equipos.forEach((eq, pos) => {
+      const esClasif = pos < 2;
+      const bgColor = esClasif ? 'rgba(0,255,0,0.05)' : 'transparent';
+      html += `<tr style="border-bottom:1px solid #1a1a2e;background:${bgColor}">`;
+      html += `<td style="padding:8px 4px;text-align:left;font-weight:${esClasif ? '700' : '400'};color:${esClasif ? '#00ff00' : '#888'}">${pos + 1}</td>`;
+      html += `<td style="padding:8px 4px;text-align:left;"><span style="margin-right:6px">${getFlag(eq.team)}</span>${sanitizar(nombreEquipo(eq.team))}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;">${eq.p || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;color:#00ff00">${eq.w || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;color:#888">${eq.d || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;color:#ff4500">${eq.l || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;">${eq.gf || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;">${eq.ga || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;color:${eq.gd > 0 ? '#00ff00' : eq.gd < 0 ? '#ff4500' : '#888'}">${eq.gd > 0 ? '+' : ''}${eq.gd || 0}</td>`;
+      html += `<td style="padding:8px 4px;text-align:center;font-weight:700;color:#ffd700;font-family:'Orbitron',sans-serif">${eq.pts || 0}</td>`;
+      html += '</tr>';
+    });
+    
+    html += '</tbody></table>';
+    html += '<div style="margin-top:8px;font-size:0.7rem;color:#555"><span style="color:#00ff44">■</span> Clasifica a siguiente ronda</div>';
+    html += '</div>';
+  });
+  
+  html += '</div>';
+  return html;
+}
+
+// ===== MAPA DE BANDERAS + NORMALIZACIÓN =====
+const flags = {
+  "Argentina":"🇦🇷","Austria":"🇦🇹","Iraq":"🇮🇶","France":"🇫🇷","Senegal":"🇸🇳",
+  "Norway":"🇳🇴","Algeria":"🇩🇿","Jordan":"🇯🇴","Mexico":"🇲🇽","South Africa":"🇿🇦",
+  "South Korea":"🇰🇷","Czechia":"🇨🇿","Czech Republic":"🇨🇿","Canada":"🇨🇦",
+  "Bosnia":"🇧🇦","Bosnia & Herzegovina":"🇧🇦","Bosnia-Herzegovina":"🇧🇦",
+  "United States":"🇺🇸","USA":"🇺🇸","Paraguay":"🇵🇾","Qatar":"🇶🇦",
+  "Switzerland":"🇨🇭","Brazil":"🇧🇷","Morocco":"🇲🇦","Haiti":"🇭🇹",
+  "England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Scotland":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Wales":"🏴󠁧󠁢󠁷󠁬󠁳󠁿",
+  "Australia":"🇦🇺","Turkey":"🇹🇷","Turkiye":"🇹🇷","Germany":"🇩🇪",
+  "Curacao":"🇨🇼","Curaçao":"🇨🇼","Netherlands":"🇳🇱","Japan":"🇯🇵",
+  "Ivory Coast":"🇨🇮","Ecuador":"🇪🇨","Sweden":"🇸🇪","Tunisia":"🇹🇳",
+  "Spain":"🇪🇸","Cape Verde":"🇨🇻","Belgium":"🇧🇪","Egypt":"🇪🇬",
+  "Saudi Arabia":"🇸🇦","Uruguay":"🇺🇾","Iran":"🇮🇷","New Zealand":"🇳🇿",
+  "Portugal":"🇵🇹","DR Congo":"🇨🇩","Congo DR":"🇨🇩","Croatia":"🇭🇷",
+  "Ghana":"🇬🇭","Panama":"🇵🇦","Uzbekistan":"🇺🇿","Colombia":"🇨🇴",
+  "Kosovo":"🇽🇰","Slovenia":"🇸🇮","Slovakia":"🇸🇰","Serbia":"🇷🇸",
+  "Poland":"🇵🇱","Ukraine":"🇺🇦","Hungary":"🇭🇺","Montenegro":"🇲🇪",
+  "Romania":"🇷🇴","Greece":"🇬🇷","Denmark":"🇩🇰","Finland":"🇫🇮",
+  "Nigeria":"🇳🇬","Cameroon":"🇨🇲","Mali":"🇲🇱","Burkina Faso":"🇧🇫",
+  "Guinea":"🇬🇳","Benin":"🇧🇯","Comoros":"🇰🇲","Equatorial Guinea":"🇬🇶",
+  "Togo":"🇹🇬","Angola":"🇦🇴","Sudan":"🇸🇩","Zambia":"🇿🇲","Mozambique":"🇲🇿"
+};
+
+function normalizarPais(n) {
+  if (!n) return '';
+  const mapa = {
+    'USA': 'United States',
+    'Turkey': 'Turkiye',
+    'Czech Republic': 'Czechia',
+    'Bosnia & Herzegovina': 'Bosnia-Herzegovina',
+    'Bosnia': 'Bosnia-Herzegovina',
+    'DR Congo': 'Congo DR',
+    'Curaçao': 'Curacao'
+  };
+  if (mapa[n]) return mapa[n];
+  if (n.match(/^[WwLl]\d+$/)) return n;
+  if (n.match(/^\d+[A-Za-z]/) || n.match(/^[A-Za-z]\d/)) return n;
+  return n;
+}
+
+function getFlag(n) {
+  const norm = normalizarPais(n);
+  if (flags[norm]) return flags[norm];
+  if (flags[n]) return flags[n];
+  
+  for (let [k, v] of Object.entries(flags)) {
+    if (n && n.toLowerCase().includes(k.toLowerCase())) return v;
+    if (norm && norm.toLowerCase().includes(k.toLowerCase())) return v;
+  }
+  
+  if (n && (n.match(/^[Ww]\d+$/) || n.match(/^[Ll]\d+$/))) return '⚡';
+  if (n && n.match(/^[\dA-Za-z/]+$/)) return '⚡';
+  return '🏳️'
+}
+
+function nombreEquipo(n) {
+  if (!n) return 'Pendiente';
+  if (n.match(/^W\d+$/)) return 'Ganador del ' + n.replace('W', 'Partido ');
+  if (n.match(/^L\d+$/)) return 'Perdedor del ' + n.replace('L', 'Partido ');
+  if (n.match(/^\d+[A-Z]$/)) return n.replace(/(\d)([A-Z])/, 'Ganador Grupo $2');
+  if (n.match(/^\d[A-Za-z/]+$/)) return n;
+  if (n.match(/^3[A-Za-z/]+$/)) return n.replace('3', '3º Grupo ');
+  return normalizarPais(n);
+}
+
+// ===== RELOJ =====
+function actReloj() {
+  const a = new Date();
+  const h = a.toLocaleTimeString("es-ES", {
+    timeZone: "Atlantic/Canary",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false
+  });
+  const d = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  const m = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  const r = document.getElementById("reloj");
+  if (r) r.innerHTML = h + ' <small>Tenerife · ' + d[a.getDay()] + ' ' + a.getDate() + ' de ' + m[a.getMonth()] + ' de ' + a.getFullYear() + '</small>';
+}
+actReloj();
+setInterval(actReloj, 1000);
+
+// ===== CÁLCULO DINÁMICO DE ESTADO =====
+function calcularEstadoDinamico(ev, ahora) {
+  if (ev.statusAPI === 'live') {
+    const minuto = ev.minutoVivo || 0;
+    const hayGoles = ev.gL !== null;
+    return {
+      clase: 'envivo',
+      badge: `<span class="partido-estado estado-vivo"><span class="envivo-badge-grande">🔴 EN VIVO · ${minuto}'</span></span>`,
+      resultado: (hayGoles ? (ev.gL || 0) + '-' + (ev.gV || 0) : '0-0'),
+      detalle: `${minuto}'`,
+      enVivo: true,
+      finalizado: false
+    };
+  }
+
+  if (ev.statusAPI === 'finished') {
+    return {
+      clase: 'finalizado',
+      badge: '<span class="partido-estado estado-final">✅ FINAL</span>',
+      resultado: (ev.gL || 0) + '-' + (ev.gV || 0),
+      detalle: 'FT',
+      enVivo: false,
+      finalizado: true
+    };
+  }
+
+  const inicio = new Date(ev.fecha).getTime();
+  const fin = inicio + 110 * 60 * 1000;
+  const ahoraMs = ahora.getTime();
+  const hayGoles = ev.gL !== null && ev.gL !== undefined && ev.gV !== null && ev.gV !== undefined;
+
+  if (ahoraMs >= fin && hayGoles) {
+    return {
+      clase: 'finalizado',
+      badge: '<span class="partido-estado estado-final">✅ FINAL</span>',
+      resultado: (ev.gL || 0) + '-' + (ev.gV || 0),
+      detalle: 'FT',
+      enVivo: false,
+      finalizado: true
+    };
+  }
+  
+  return {
+    clase: 'programado',
+    badge: '<span class="partido-estado estado-prog">📅 Programado</span>',
+    resultado: 'vs',
+    detalle: 'Scheduled',
+    enVivo: false,
+    finalizado: false
+  };
+}
+
+// ===== FORMATEAR =====
+function formatearFecha(iso) {
+  if (!iso) return "Fecha por definir";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "Fecha por definir";
+  const da = ["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
+  const me = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  const h = d.getHours().toString().padStart(2,"0") + ":" + d.getMinutes().toString().padStart(2,"0");
+  return da[d.getDay()] + " " + d.getDate() + " de " + me[d.getMonth()] + " · " + h + " WEST";
+}
+
+function fechaStr(iso) {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (isNaN(d.getTime())) return "";
+  return d.getFullYear() + "-" + (d.getMonth()+1).toString().padStart(2,"0") + "-" + d.getDate().toString().padStart(2,"0");
+}
+
+// ===== DETERMINAR EQUIPO DEL GOL =====
+function determinarEquipoGol(ev, gol) {
+  // Si la API dice que es autogol, el gol fue del equipo contrario
+  if (gol.auto) return ev.visitante;
+  
+  // Simple: asumimos que los goles vienen en orden
+  // Primero los del equipo local, luego los del visitante
+  const idx = ev.goles.indexOf(gol);
+  const golesLocal = parseInt(ev.gL) || 0;
+  const golesVisitante = parseInt(ev.gV) || 0;
+  
+  // Si el índice es menor que los goles del local, es del local
+  if (idx < golesLocal) return ev.local;
+  
+  // Si el índice está entre los goles del local y el total, es del visitante
+  if (idx >= golesLocal && idx < golesLocal + golesVisitante) return ev.visitante;
+  
+  // Fallback: asumimos que es del local
+  return ev.local;
+}
+
+// ===== RENDER PARTIDO (CON BANDERAS EN GOLEADORES) =====
+function renderPartido(ev, ahora) {
+  const estado = calcularEstadoDinamico(ev, ahora);
+  
+  const nomL = sanitizar(nombreEquipo(ev.local));
+  const nomV = sanitizar(nombreEquipo(ev.visitante));
+  
+  let golesHTML = '';
+  if (ev.goles && ev.goles.length) {
+    golesHTML = '<ul class="goles-list" aria-label="Goles">';
+    
+    ev.goles.forEach(g => {
+      const equipoGol = determinarEquipoGol(ev, g);
+      const flag = getFlag(equipoGol);
+      
+      golesHTML += `
+        <li>
+          <span class="flag" aria-hidden="true">${flag}</span>
+          <span>⚽ ${sanitizar(g.goleador)} · ${g.min}'${g.pen ? ' <span class="penalty">(penalti)</span>' : ''}${g.auto ? ' <span class="penalty">(a.g.)</span>' : ''}</span>
+        </li>
+      `;
+    });
+    
+    golesHTML += '</ul>';
+  }
+  
+  return `<div class="partido-card ${estado.clase}" role="article" aria-label="Partido: ${nomL} vs ${nomV}">
+    <div class="partido-header">
+      <span class="partido-fecha">${formatearFecha(ev.fecha)}</span>
+      ${estado.badge}
+    </div>
+    <div class="partido-equipos">
+      <div class="equipo local">
+        <span class="flag" aria-hidden="true">${getFlag(ev.local)}</span>
+        <span>${nomL}</span>
+      </div>
+      <div class="resultado${estado.resultado === 'vs' ? ' vacio' : ''}" aria-label="Resultado: ${estado.resultado}">
+        ${estado.resultado}
+      </div>
+      <div class="equipo visitante">
+        <span>${nomV}</span>
+        <span class="flag" aria-hidden="true">${getFlag(ev.visitante)}</span>
+      </div>
+    </div>
+    ${golesHTML}
+    ${ev.venue ? `<div class="info-extra"><span>🏟️ ${sanitizar(ev.venue)}</span></div>` : ''}
+    ${ev.ronda ? `<div class="info-extra"><span>📋 ${sanitizar(ev.ronda)}${ev.grupo ? ' · ' + sanitizar(ev.grupo) : ''}</span></div>` : ''}
+    <div class="status-bar"><span>📊 ${estado.detalle}</span></div>
+  </div>`;
+}
+
+// ===== NAVEGACION =====
+function mostrarSeccion(id) {
+  document.querySelectorAll('.seccion').forEach(s => {
+    s.classList.remove('active');
+    s.setAttribute('aria-hidden', 'true');
+  });
+  
+  document.querySelectorAll('.menu-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+  });
+  
+  const panel = document.getElementById('seccion-' + id) || document.getElementById('panel-' + id);
+  if (panel) {
+    panel.classList.add('active');
+    panel.setAttribute('aria-hidden', 'false');
+  }
+  
+  const btn = document.querySelector(`.menu-btn[data-seccion="${id}"]`);
+  if (btn) {
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+}
+
+// ===== AUTO-REFRESH INTELIGENTE =====
+function gestionarAutoRefresh() {
+  const hayPartidosEnVivo = EVENTOS.some(e => e.statusAPI === 'live');
+  const indicator = document.getElementById('autoRefreshIndicator');
+  
+  if (hayPartidosEnVivo) {
+    if (!autoRefreshInterval) {
+      log('Iniciando auto-refresh (hay partidos en vivo)');
+      autoRefreshInterval = setInterval(() => {
+        log('Auto-refresh ejecutado');
+        renderizarTodo(false);
+      }, CONFIG.AUTO_REFRESH_INTERVAL);
+      
+      if (indicator) indicator.style.display = 'inline';
+    }
+  } else {
+    if (autoRefreshInterval) {
+      log('Deteniendo auto-refresh (no hay partidos en vivo)');
+      clearInterval(autoRefreshInterval);
+      autoRefreshInterval = null;
+      
+      if (indicator) indicator.style.display = 'none';
+    }
+  }
+}
+
+// ===== FUNCIONES DE REINTENTO MANUAL =====
+function reintentarCarga() {
+  log('Reintentando carga manualmente...');
+  renderizarTodo();
+}
+
+function usarCacheLocal() {
+  log('Usando caché local manualmente...');
+  const cacheUsada = cargarCache();
+  if (cacheUsada) {
+    limpiarErrores();
+    renderizarTodo(false, true);
+  } else {
+    mostrarError('No hay datos en caché disponibles', false);
+  }
+}
+
+// ===== AVISO DE PRIMERA CARGA =====
+function mostrarAvisoPrimeraCarga() {
+  const esPrimeraCarga = !localStorage.getItem(CONFIG.CACHE_KEY);
+  if (!esPrimeraCarga) return;
+  
+  const avisoCarga = document.createElement('div');
+  avisoCarga.id = 'aviso-primera-carga';
+  avisoCarga.className = 'aviso-primera-carga';
+  avisoCarga.style.cssText = `
+    position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 2px solid #ff6a00; color: #ffd700;
+    padding: 15px 25px; border-radius: 12px;
+    font-family: 'Orbitron', sans-serif;
+    z-index: 9999; text-align: center;
+    max-width: 90vw;
+  `;
+  avisoCarga.innerHTML = `
+    <div style="display:flex; align-items:center; gap:10px; justify-content:center;">
+      <span class="auto-refresh-indicator" style="width:12px; height:12px;"></span>
+      <span style="color:#ff8c00; font-size:0.9rem;">⏳ Primera carga · Cargando datos del Mundial 2026...</span>
+    </div>
+    <div style="margin-top:8px; font-size:0.75rem; color:#888;">
+      🕒 Puede tardar hasta 2-3 minutos en cargar todos los datos
+    </div>
+    <div style="margin-top:8px; font-size:0.7rem; color:#666;">
+      Las próximas visitas serán instantáneas gracias a la caché local
+    </div>
+  `;
+  document.body.appendChild(avisoCarga);
+  
+  // Guardar referencia para eliminar después
+  window._avisoCarga = avisoCarga;
+}
+
+function eliminarAvisoPrimeraCarga() {
+  const aviso = document.getElementById('aviso-primera-carga');
+  if (aviso) {
+    aviso.style.animation = 'fadeOut 0.3s ease-out';
+    setTimeout(() => {
+      if (aviso.parentNode) aviso.parentNode.removeChild(aviso);
+    }, 300);
+  }
+}
+
+// ===== RENDERIZAR TODO =====
+async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
+  const btn = document.getElementById('btnAct');
+  
+  // Mostrar aviso de primera carga
+  if (mostrarLoaders) {
+    mostrarAvisoPrimeraCarga();
+    
+    if (btn) { 
+      btn.disabled = true; 
+      btn.textContent = '⏳ CARGANDO...'; 
+    }
+    
+    // Mostrar skeleton loaders mientras carga
+    document.getElementById("vivo-hoy-content").innerHTML = 
+      '<div class="partidos-grid">' + mostrarSkeletonLoader(3) + '</div>';
+  }
+  
+  // Cargar datos
+  if (!usarCache || EVENTOS.length === 0) {
+    await cargarPartidos();
+  }
+  
+  await cargarClasificaciones();
+  
+  // Cargar goleadores y iniciar carga progresiva
+  await cargarGoleadoresOptimizado();
+  
+  const pendientesGoles = EVENTOS.filter(ev =>
+    ev.gL !== null && (!ev.goles || ev.goles.length === 0)
+  );
+  if (pendientesGoles.length > 0) {
+    iniciarCargaProgresiva();
+  }
+  
+  // Eliminar aviso de primera carga
+  eliminarAvisoPrimeraCarga();
+  
+  if (btn) {
+    btn.disabled = false; 
+    btn.textContent = '🔄 ACTUALIZAR'; 
+  }
+  
+  const ahora = new Date();
+  const hoy = fechaStr(ahora.toISOString());
+  
+  // Clasificar eventos
+  const enVivo = [], hoyPart = [], pasados = [], proximos = [];
+  
+  EVENTOS.forEach(ev => {
+    const estado = calcularEstadoDinamico(ev, ahora);
+    
+    if (estado.enVivo) { enVivo.push(ev); return; }
+    if (!ev.fecha) { proximos.push(ev); return; }
+    
+    const f = fechaStr(ev.fecha);
+    if (estado.finalizado) { pasados.push(ev); }
+    else if (f === hoy) { hoyPart.push(ev); }
+    else { proximos.push(ev); }
+  });
+  
+  // Ordenar
+  const sortAsc = (a, b) => new Date(a.fecha || 0) - new Date(b.fecha || 0);
+  enVivo.sort(sortAsc);
+  hoyPart.sort(sortAsc);
+  pasados.sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
+  proximos.sort(sortAsc);
+  
+  // Actualizar badges
+  document.getElementById("badge-vivo").textContent = enVivo.length + hoyPart.length;
+  document.getElementById("badge-pasados").textContent = pasados.length;
+  document.getElementById("badge-proximos").textContent = proximos.length;
+  document.getElementById("count-pasados").textContent = pasados.length;
+  document.getElementById("count-proximos").textContent = proximos.length;
+  
+  // Renderizar VIVO + HOY
+  let h = '';
+  if (enVivo.length) {
+    h += `<div class="vivo-section">
+      <div class="seccion-title">🔴 EN VIVO <span class="badge">${enVivo.length}</span></div>
+      <div class="partidos-grid">${enVivo.map(ev => renderPartido(ev, ahora)).join('')}</div>
+    </div>`;
+  }
+  
+  if (hoyPart.length) {
+    h += `<div class="hoy-section">
+      <div class="seccion-title">📅 PARTIDOS DE HOY <span class="badge">${hoyPart.length}</span></div>
+      <div class="partidos-grid">${hoyPart.map(ev => renderPartido(ev, ahora)).join('')}</div>
+    </div>`;
+  } else if (!enVivo.length) {
+    h += '<div class="hoy-section"><div class="seccion-title">📅 PARTIDOS DE HOY <span class="badge">0</span></div><div class="mensaje-info">📌 No hay partidos programados para hoy</div></div>';
+  }
+  
+  if (!enVivo.length && !hoyPart.length) {
+    h = '<div class="mensaje-info">📌 No hay partidos en vivo ni programados para hoy</div>';
+  }
+  
+  document.getElementById("vivo-hoy-content").innerHTML = h;
+  
+  // Renderizar PASADOS
+  if (pasados.length) {
+    document.getElementById("pasados-content").innerHTML = 
+      '<div class="partidos-grid">' + pasados.map(ev => renderPartido(ev, ahora)).join('') + '</div>';
+  } else {
+    document.getElementById("pasados-content").innerHTML = '<div class="mensaje-info">📌 No hay partidos pasados aún</div>';
+  }
+  
+  // Renderizar PRÓXIMOS
+  if (proximos.length) {
+    document.getElementById("proximos-content").innerHTML = 
+      '<div class="partidos-grid">' + proximos.map(ev => renderPartido(ev, ahora)).join('') + '</div>';
+  } else {
+    document.getElementById("proximos-content").innerHTML = '<div class="mensaje-info">📌 No hay próximos partidos</div>';
+  }
+  
+  // Renderizar GRUPOS
+  document.getElementById("count-grupos").textContent = CLASIFICACIONES.length;
+  document.getElementById("grupos-content").innerHTML = renderClasificaciones();
+  
+  // Actualizar timestamp
+  document.getElementById("ultAct").textContent = "✅ " + (ultimaActualizacion ? 
+    ultimaActualizacion.toLocaleString("es-ES", {timeZone: "Atlantic/Canary"}) : 
+    ahora.toLocaleString("es-ES", {timeZone: "Atlantic/Canary"}));
+  
+  // Gestionar auto-refresh
+  gestionarAutoRefresh();
+  
+  // Solicitar permiso para notificaciones
+  if (enVivo.length > 0 && 'Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission();
+  }
+}
+
+// ===== INICIALIZACIÓN =====
+log('Inicializando Mundial 2026 GodMode...');
+
+// Intentar cargar caché primero para mostrar algo inmediatamente
+const cacheInicial = cargarCache();
+if (cacheInicial) {
+  log('Mostrando datos de caché mientras se actualiza...');
+  renderizarTodo(false, true);
+}
+
+// Cargar datos frescos de la API
+renderizarTodo();
+</script>
+</body>
+</html>
