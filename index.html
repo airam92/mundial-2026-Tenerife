@@ -1013,12 +1013,12 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
   }
 }
 
-// ===== CONTADOR DE VISITAS GLOBAL (hits.seeyoufarm.com) =====
+// ===== CONTADOR DE VISITAS =====
 (function() {
   const contenedor = document.getElementById('contador-container');
   if (!contenedor) return;
-
-  // Mostrar "Cargando..." mientras se obtiene el contador
+  
+  // Icono de ojo + "Cargando..."
   contenedor.innerHTML = `
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -1026,25 +1026,42 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
     </svg>
     <span style="color:#888; font-size:0.75rem;">Cargando...</span>
   `;
-
-  // Usar hits.seeyoufarm.com que es fiable y devuelve un badge SVG
-  const img = new Image();
+  
+  // Intentar cargar el badge
+  var img = document.createElement('img');
+  img.src = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://airam92.github.io/mundial-2026-Tenerife/&count_bg=%231a1a2e&title_bg=%23ff6a00&title=visitas&edge_flat=true';
+  img.style.height = '20px';
+  img.alt = 'Contador de visitas';
+  
   img.onload = function() {
     contenedor.innerHTML = '';
     contenedor.appendChild(img);
-    img.style.height = '20px';
-    img.alt = 'Contador de visitas';
   };
+  
   img.onerror = function() {
-    contenedor.innerHTML = `
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-      </svg>
-      <span style="color:#888; font-size:0.75rem;">visitas</span>
-    `;
+    // Segundo intento tras 2 segundos
+    setTimeout(function() {
+      var img2 = document.createElement('img');
+      img2.src = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://airam92.github.io/mundial-2026-Tenerife/&count_bg=%231a1a2e&title_bg=%23ff6a00&title=visitas&edge_flat=true';
+      img2.style.height = '20px';
+      img2.alt = 'Contador de visitas';
+      
+      img2.onload = function() {
+        contenedor.innerHTML = '';
+        contenedor.appendChild(img2);
+      };
+      
+      img2.onerror = function() {
+        contenedor.innerHTML = `
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+          </svg>
+          <span style="color:#888; font-size:0.75rem;">visitas</span>
+        `;
+      };
+    }, 2000);
   };
-  img.src = 'https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://airam92.github.io/mundial-2026-Tenerife/&count_bg=%231a1a2e&title_bg=%23ff6a00&title=Visitas&edge_flat=true';
 })();
 
 // ===== INICIALIZACIÓN =====
