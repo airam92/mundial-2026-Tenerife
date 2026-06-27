@@ -122,9 +122,8 @@ footer a:hover{color:#ffd700!important}
     <span style="margin:0 8px;">·</span>
     <span>Mundial 2026</span>
   </div>
-  <div style="margin-top:8px;">
-    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2FAiram92.github.io%2Fmundial2026&count_bg=%231a1a2e&title_bg=%23ff6a00&title=Visitas&edge_flat=true" 
-         alt="Contador de visitas" style="height:20px;">
+  <div style="margin-top:8px;" id="contador-container">
+    <!-- El contador se inserta aquí automáticamente -->
   </div>
 </footer>
 </div>
@@ -328,21 +327,18 @@ async function cargarGoleadoresOptimizado() {
     const ahora = new Date();
     const cacheLocal = cargarCacheGoles();
     
-    // Aplicar goles de caché a los eventos
     EVENTOS.forEach(ev => {
       if (ev.goles.length === 0 && cacheLocal[ev.id]) {
         ev.goles = cacheLocal[ev.id];
       }
     });
     
-    // 1. Identificar partidos que necesitan goleadores
     const partidosNecesitanGoles = EVENTOS.filter(ev => {
       if (ev.gL === null || ev.gL === undefined) return false;
       if (ev.goles && ev.goles.length > 0) return false;
       return true;
     });
     
-    // 2. PRIORIZAR: Primero en vivo/hoy, luego pasados recientes
     const partidosPriorizados = priorizarPartidos(partidosNecesitanGoles, ahora);
     
     if (partidosPriorizados.length === 0) {
@@ -352,14 +348,11 @@ async function cargarGoleadoresOptimizado() {
     
     log(`📊 Cargando goleadores para ${partidosPriorizados.length} partidos`);
     
-    // 3. Cargar en lotes priorizando los importantes
     const altaPrioridad = partidosPriorizados.filter(p => p.prioridad === 'alta');
     const bajaPrioridad = partidosPriorizados.filter(p => p.prioridad === 'baja');
     
-    // Cargar alta prioridad (en vivo/hoy/3 días)
     await cargarLoteGoles(altaPrioridad, cacheLocal);
     
-    // Cargar baja prioridad hasta el máximo
     const MAX_POR_CARGA = CONFIG.MAX_POR_CARGA;
     const resto = Math.max(0, MAX_POR_CARGA - altaPrioridad.length);
     if (resto > 0 && bajaPrioridad.length > 0) {
@@ -903,6 +896,26 @@ function eliminarAvisoPrimeraCarga() {
     }, 300);
   }
 }
+
+// ===== CONTADOR DE VISITAS =====
+(function() {
+  const KEY = 'mundial2026_visitas';
+  let visitas = parseInt(localStorage.getItem(KEY) || '0');
+  
+  const hoy = new Date().toDateString();
+  const ultimaVisita = localStorage.getItem('mundial2026_ultima');
+  
+  if (ultimaVisita !== hoy) {
+    visitas++;
+    localStorage.setItem(KEY, visitas);
+    localStorage.setItem('mundial2026_ultima', hoy);
+  }
+  
+  const contadorContainer = document.getElementById('contador-container');
+  if (contadorContainer) {
+    contadorContainer.innerHTML = '<span style="color:#888; font-size:0.75rem;">👁️ ' + visitas + ' visitas</span>';
+  }
+})();
 
 // ===== RENDERIZAR TODO =====
 async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
