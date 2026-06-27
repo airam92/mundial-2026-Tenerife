@@ -122,45 +122,13 @@ footer a:hover{color:#ffd700!important}
     <span style="margin:0 8px;">·</span>
     <span>Mundial 2026</span>
   </div>
-// ===== CONTADOR DE VISITAS GLOBAL =====
-fetch('https://api.countapi.xyz/hit/airam92.github.io/mundial-2026-Tenerife/visitas')
-  .then(r => r.json())
-  .then(data => {
-    const contenedor = document.getElementById('contador-container');
-    if (contenedor) {
-      contenedor.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-        <span style="color:#888; font-size:0.75rem;">${data.value} visitas</span>
-      `;
-    }
-  })
-  .catch(() => {
-    const contenedor = document.getElementById('contador-container');
-    if (contenedor) {
-      contenedor.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-        <span style="color:#888; font-size:0.75rem;">visitas</span>
-      `;
-    }
-  });
-  .catch(() => {
-    const contenedor = document.getElementById('contador-container');
-    if (contenedor) {
-      contenedor.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-          <circle cx="12" cy="12" r="3"></circle>
-        </svg>
-        <span style="color:#888; font-size:0.75rem;">visitas</span>
-      `;
-    }
-  });
+  <div style="margin-top:8px; display:flex; align-items:center; justify-content:center; gap:6px;" id="contador-container">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+      <circle cx="12" cy="12" r="3"></circle>
+    </svg>
+    <span style="color:#888; font-size:0.75rem;">Cargando...</span>
+  </div>
 </footer>
 </div>
 <script>
@@ -1061,6 +1029,34 @@ if (cacheInicial) {
 }
 
 renderizarTodo();
+
+// ===== CONTADOR DE VISITAS GLOBAL =====
+fetch('https://api.countapi.xyz/hit/airam92.github.io/mundial-2026-Tenerife/visitas')
+  .then(r => r.json())
+  .then(data => {
+    const contenedor = document.getElementById('contador-container');
+    if (contenedor) {
+      contenedor.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span style="color:#888; font-size:0.75rem;">${data.value} visitas</span>
+      `;
+    }
+  })
+  .catch(() => {
+    const contenedor = document.getElementById('contador-container');
+    if (contenedor) {
+      contenedor.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+          <circle cx="12" cy="12" r="3"></circle>
+        </svg>
+        <span style="color:#888; font-size:0.75rem;">visitas</span>
+      `;
+    }
+  });
 </script>
 
 </body>
