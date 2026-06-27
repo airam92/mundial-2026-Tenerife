@@ -52,7 +52,8 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;back
 .resultado{font-family:'Orbitron',sans-serif;font-size:1.8rem;font-weight:900;color:#ffd700;text-shadow:0 0 15px rgba(255,215,0,0.3);text-align:center;min-width:60px}
 .resultado.vacio{color:#666;font-size:1rem}
 .goles-list{list-style:none;padding:0;margin-top:8px;border-top:1px solid #222;padding-top:8px}
-.goles-list li{font-size:0.85rem;padding:3px 0;color:#ccc}
+.goles-list li{font-size:0.85rem;padding:3px 0;color:#ccc;display:flex;align-items:center;gap:8px}
+.goles-list li .flag{font-size:1rem}
 .goles-list li .penalty{color:#ff4500;font-weight:600}
 .info-extra{font-size:0.75rem;color:#777;margin-top:6px;display:flex;gap:15px;flex-wrap:wrap}
 .mensaje-info{background:#1a1a2e;border:1px solid #333;padding:30px;border-radius:8px;color:#888;text-align:center;font-size:1.1rem}
@@ -68,6 +69,10 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;back
 .error-banner button{margin-top:10px;background:#ff4500;color:#fff;border:none;padding:8px 16px;border-radius:4px;cursor:pointer}
 .auto-refresh-indicator{display:inline-block;width:8px;height:8px;background:#00ff00;border-radius:50%;margin-right:5px;animation:pulse 1s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.aviso-primera-carga{animation:fadeIn 0.3s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeOut{from{opacity:1}to{opacity:0}}
+footer a:hover{color:#ffd700!important}
 @media(max-width:768px){
   header{padding:15px}
   .logo{font-size:1.5rem}
@@ -85,29 +90,6 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;back
   .goles-list{font-size:0.7rem}
   .equipo .flag{font-size:1.2rem}
   .menu-btn{padding:6px 10px;font-size:0.7rem}
-}
-
-/* Estilos para el aviso de primera carga */
-.aviso-primera-carga {
-  animation: fadeIn 0.3s ease-out;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
-/* Estilos para banderas en goleadores */
-.goles-list li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.goles-list li .flag {
-  font-size: 1rem;
 }
 </style>
 </head>
@@ -132,6 +114,31 @@ header::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;back
   <div id="panel-pasados" class="seccion" role="tabpanel"><div class="seccion-title">⏪ PARTIDOS PASADOS <span class="badge" id="count-pasados">0</span></div><div id="pasados-content"></div></div>
   <div id="panel-proximos" class="seccion" role="tabpanel"><div class="seccion-title">⏩ PRÓXIMOS PARTIDOS <span class="badge" id="count-proximos">0</span></div><div id="proximos-content"></div></div>
   <div id="panel-grupos" class="seccion" role="tabpanel"><div class="seccion-title">📊 CLASIFICACIONES · GRUPOS <span class="badge" id="count-grupos">12</span></div><div id="grupos-content"></div></div>
+
+<footer style="
+  text-align: center;
+  padding: 30px 20px;
+  margin-top: 40px;
+  border-top: 1px solid #222;
+  color: #666;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+">
+  <span>Diseñado y programado por</span>
+  <a href="https://github.com/Airam92" target="_blank" rel="noopener noreferrer" style="
+    color: #ff8c00;
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 4px;
+    transition: color 0.3s;
+  " onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#ff8c00'">
+    Airam92
+  </a>
+  <span style="margin: 0 8px;">·</span>
+  <span>Mundial 2026</span>
+</footer>
+
 </div>
 <script>
 // ===== CONFIGURACIÓN =====
@@ -734,22 +741,15 @@ function fechaStr(iso) {
 
 // ===== DETERMINAR EQUIPO DEL GOL =====
 function determinarEquipoGol(ev, gol) {
-  // Si la API dice que es autogol, el gol fue del equipo contrario
   if (gol.auto) return ev.visitante;
   
-  // Simple: asumimos que los goles vienen en orden
-  // Primero los del equipo local, luego los del visitante
   const idx = ev.goles.indexOf(gol);
   const golesLocal = parseInt(ev.gL) || 0;
   const golesVisitante = parseInt(ev.gV) || 0;
   
-  // Si el índice es menor que los goles del local, es del local
   if (idx < golesLocal) return ev.local;
-  
-  // Si el índice está entre los goles del local y el total, es del visitante
   if (idx >= golesLocal && idx < golesLocal + golesVisitante) return ev.visitante;
   
-  // Fallback: asumimos que es del local
   return ev.local;
 }
 
@@ -903,7 +903,6 @@ function mostrarAvisoPrimeraCarga() {
   `;
   document.body.appendChild(avisoCarga);
   
-  // Guardar referencia para eliminar después
   window._avisoCarga = avisoCarga;
 }
 
@@ -921,7 +920,6 @@ function eliminarAvisoPrimeraCarga() {
 async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
   const btn = document.getElementById('btnAct');
   
-  // Mostrar aviso de primera carga
   if (mostrarLoaders) {
     mostrarAvisoPrimeraCarga();
     
@@ -930,19 +928,16 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
       btn.textContent = '⏳ CARGANDO...'; 
     }
     
-    // Mostrar skeleton loaders mientras carga
     document.getElementById("vivo-hoy-content").innerHTML = 
       '<div class="partidos-grid">' + mostrarSkeletonLoader(3) + '</div>';
   }
   
-  // Cargar datos
   if (!usarCache || EVENTOS.length === 0) {
     await cargarPartidos();
   }
   
   await cargarClasificaciones();
   
-  // Cargar goleadores y iniciar carga progresiva
   await cargarGoleadoresOptimizado();
   
   const pendientesGoles = EVENTOS.filter(ev =>
@@ -952,7 +947,6 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
     iniciarCargaProgresiva();
   }
   
-  // Eliminar aviso de primera carga
   eliminarAvisoPrimeraCarga();
   
   if (btn) {
@@ -963,7 +957,6 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
   const ahora = new Date();
   const hoy = fechaStr(ahora.toISOString());
   
-  // Clasificar eventos
   const enVivo = [], hoyPart = [], pasados = [], proximos = [];
   
   EVENTOS.forEach(ev => {
@@ -978,21 +971,18 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
     else { proximos.push(ev); }
   });
   
-  // Ordenar
   const sortAsc = (a, b) => new Date(a.fecha || 0) - new Date(b.fecha || 0);
   enVivo.sort(sortAsc);
   hoyPart.sort(sortAsc);
   pasados.sort((a, b) => new Date(b.fecha || 0) - new Date(a.fecha || 0));
   proximos.sort(sortAsc);
   
-  // Actualizar badges
   document.getElementById("badge-vivo").textContent = enVivo.length + hoyPart.length;
   document.getElementById("badge-pasados").textContent = pasados.length;
   document.getElementById("badge-proximos").textContent = proximos.length;
   document.getElementById("count-pasados").textContent = pasados.length;
   document.getElementById("count-proximos").textContent = proximos.length;
   
-  // Renderizar VIVO + HOY
   let h = '';
   if (enVivo.length) {
     h += `<div class="vivo-section">
@@ -1016,7 +1006,6 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
   
   document.getElementById("vivo-hoy-content").innerHTML = h;
   
-  // Renderizar PASADOS
   if (pasados.length) {
     document.getElementById("pasados-content").innerHTML = 
       '<div class="partidos-grid">' + pasados.map(ev => renderPartido(ev, ahora)).join('') + '</div>';
@@ -1024,7 +1013,6 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
     document.getElementById("pasados-content").innerHTML = '<div class="mensaje-info">📌 No hay partidos pasados aún</div>';
   }
   
-  // Renderizar PRÓXIMOS
   if (proximos.length) {
     document.getElementById("proximos-content").innerHTML = 
       '<div class="partidos-grid">' + proximos.map(ev => renderPartido(ev, ahora)).join('') + '</div>';
@@ -1032,19 +1020,15 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
     document.getElementById("proximos-content").innerHTML = '<div class="mensaje-info">📌 No hay próximos partidos</div>';
   }
   
-  // Renderizar GRUPOS
   document.getElementById("count-grupos").textContent = CLASIFICACIONES.length;
   document.getElementById("grupos-content").innerHTML = renderClasificaciones();
   
-  // Actualizar timestamp
   document.getElementById("ultAct").textContent = "✅ " + (ultimaActualizacion ? 
     ultimaActualizacion.toLocaleString("es-ES", {timeZone: "Atlantic/Canary"}) : 
     ahora.toLocaleString("es-ES", {timeZone: "Atlantic/Canary"}));
   
-  // Gestionar auto-refresh
   gestionarAutoRefresh();
   
-  // Solicitar permiso para notificaciones
   if (enVivo.length > 0 && 'Notification' in window && Notification.permission === 'default') {
     Notification.requestPermission();
   }
@@ -1053,40 +1037,14 @@ async function renderizarTodo(mostrarLoaders = true, usarCache = false) {
 // ===== INICIALIZACIÓN =====
 log('Inicializando Mundial 2026 GodMode...');
 
-// Intentar cargar caché primero para mostrar algo inmediatamente
 const cacheInicial = cargarCache();
 if (cacheInicial) {
   log('Mostrando datos de caché mientras se actualiza...');
   renderizarTodo(false, true);
 }
 
-// Cargar datos frescos de la API
 renderizarTodo();
 </script>
-
-<footer style="
-  text-align: center;
-  padding: 30px 20px;
-  margin-top: 40px;
-  border-top: 1px solid #222;
-  color: #666;
-  font-family: 'Inter', sans-serif;
-  font-size: 0.8rem;
-  letter-spacing: 0.5px;
-">
-  <span>Diseñado y programado por</span>
-  <a href="https://github.com/Airam92" target="_blank" rel="noopener noreferrer" style="
-    color: #ff8c00;
-    text-decoration: none;
-    font-weight: 600;
-    margin-left: 4px;
-    transition: color 0.3s;
-  " onmouseover="this.style.color='#ffd700'" onmouseout="this.style.color='#ff8c00'">
-    Airam92
-  </a>
-  <span style="margin: 0 8px;">·</span>
-  <span>Mundial 2026</span>
-</footer>
 
 </body>
 </html>
